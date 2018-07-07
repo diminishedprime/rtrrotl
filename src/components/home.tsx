@@ -2,8 +2,8 @@ import * as React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-import Todos from '../features/todos/components/main';
-import FormFilter from '../features/todos/components/todo-filters';
+import Todos from './main';
+import FormFilter from './todo-filters';
 
 const styles = {
   root: {

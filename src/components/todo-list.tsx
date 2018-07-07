@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { RootState } from '../../../store';
-import { todosModels, todosActions, todosSelectors } from '../';
+import { getFilteredTodos } from '../redux/selectors';
+import { todosActions } from '../redux/actions';
 import { List } from '@material-ui/core';
 import TodoItem from './todo-item';
+import { Todo, RootState } from '../redux/models';
 
 interface Props {
-  todos: todosModels.Todo[];
+  todos: Todo[];
   toggleTodo: (id: string) => any;
   deleteTodo: (id: string) => any;
 }
@@ -28,7 +29,7 @@ function TodoList({ todos = [], toggleTodo, deleteTodo }: Props) {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  todos: todosSelectors.getFilteredTodos(state.todos),
+  todos: getFilteredTodos(state.todos),
 });
 
 export default connect(

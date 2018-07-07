@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { Theme, Select, MenuItem } from '@material-ui/core';
-import { RootState } from '../../../store';
-import { todosModels, todosActions, todosSelectors } from '../';
-const {
-  TodosFilter: { All, Active, Completed },
-} = todosModels;
+import { getTodosFilter } from '../redux/selectors';
+import { TodosFilter, RootState } from '../redux/models';
+import { todosActions } from '../redux/actions';
+const { All, Active, Completed } = TodosFilter;
 
 const styles = (theme: Theme) => ({
   form: {
@@ -21,7 +20,7 @@ const styles = (theme: Theme) => ({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  currentFilter: todosModels.TodosFilter;
+  currentFilter: TodosFilter;
   changeFilter: (id: string) => any;
 }
 
@@ -38,7 +37,7 @@ const TodoFilters = ({ currentFilter, changeFilter, classes }: Props) => (
 );
 
 const mapStateToProps = (state: RootState) => ({
-  currentFilter: todosSelectors.getTodosFilter(state.todos),
+  currentFilter: getTodosFilter(state.todos),
 });
 
 export default connect(

@@ -1,15 +1,8 @@
 import { combineReducers } from 'redux';
-import { ActionType, getType } from 'typesafe-actions';
-
-import { Todo, TodosFilter } from './models';
-import * as todos from './actions';
-
-export type TodosAction = ActionType<typeof todos>;
-
-export type TodosState = Readonly<{
-  todos: Todo[];
-  todosFilter: TodosFilter;
-}>;
+import { routerReducer } from 'react-router-redux';
+import { getType } from 'typesafe-actions';
+import { Todo, TodosFilter, TodosState } from './models';
+import { TodosAction, todosActions as todos } from './actions';
 
 const todosReducer = (state: Todo[] = [], action: TodosAction) => {
   switch (action.type) {
@@ -42,7 +35,14 @@ const todosFilterReducer = (state = TodosFilter.All, action: TodosAction) => {
   }
 };
 
-export default combineReducers<TodosState, TodosAction>({
+const todosReducerTop = combineReducers<TodosState, TodosAction>({
   todos: todosReducer,
   todosFilter: todosFilterReducer,
 });
+
+const rootReducer = combineReducers({
+  router: routerReducer,
+  todos: todosReducerTop,
+});
+
+export default rootReducer;

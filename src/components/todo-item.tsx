@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Todo } from '../models';
+import { Todo } from '../redux/models';
 import {
   ListItem,
   ListItemText,

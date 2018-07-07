@@ -4,8 +4,8 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
-import Home from './pages/home';
-import store from './store';
+import Home from './components/home';
+import store from './redux/store';
 
 // tslint:disable-next-line:no-import-side-effect
 import './reset.css';

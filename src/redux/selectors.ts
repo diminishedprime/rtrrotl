@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { TodosState } from './reducer';
-
-import { TodosFilter } from './models';
+import { TodosFilter, TodosState } from './models';
 
 export const getTodos = (state: TodosState) => state.todos;
 

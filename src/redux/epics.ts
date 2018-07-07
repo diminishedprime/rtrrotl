@@ -1,9 +1,8 @@
 import { combineEpics, Epic } from 'redux-observable';
-import { RootState } from '../../store/root-reducer';
+import { RootState } from './models';
 import { delay, mapTo, filter } from 'rxjs/operators';
-import { RootAction } from '../../store/root-action';
+import { RootAction, todosActions as todos } from './actions';
 import { isActionOf } from 'typesafe-actions';
-import * as todos from './actions';
 
 const added13: Epic<RootAction, RootState> = (action$, state) =>
   action$.pipe(

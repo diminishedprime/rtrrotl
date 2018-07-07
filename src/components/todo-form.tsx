@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { Button, TextField, Theme, FormControl } from '@material-ui/core';
 
-import { RootState } from '../../../store';
-import { todosActions } from '../';
+import { RootState } from '../redux/models';
+import { todosActions } from '../redux/actions';
 
 const styles = (theme: Theme) => ({
   form: {

@@ -7,17 +7,13 @@ import { Provider } from 'react-redux';
 import Home from './pages/home';
 import store from './store';
 
-const styles: React.CSSProperties = {
-  fontFamily: 'sans-serif',
-  textAlign: 'center',
-};
+// tslint:disable-next-line:no-import-side-effect
+import './reset.css';
 
 const Root = () => (
-  <div style={styles}>
-    <Provider store={store}>
-      <Home />
-    </Provider>
-  </div>
+  <Provider store={store}>
+    <Home />
+  </Provider>
 );
 
 render(<Root />, document.getElementById('root'));

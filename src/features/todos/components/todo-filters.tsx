@@ -1,47 +1,39 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { Theme, Select, MenuItem } from '@material-ui/core';
 import { RootState } from '../../../store';
 import { todosModels, todosActions, todosSelectors } from '../';
 const {
   TodosFilter: { All, Active, Completed },
 } = todosModels;
 
-interface Props {
-  currentFilter: todosModels.TodosFilter;
-  changeFilter: (id: string) => void;
-}
-
-const SEPARATOR = ' | ';
-const FILTERS = [All, ' | ', Active, ' | ', Completed];
-
-function TodoFilters({ currentFilter, changeFilter }: Props) {
-  const Button = (idx: number, filter: string) => (
-    <span
-      key={idx}
-      onClick={() => changeFilter(filter)}
-      style={getStyle(filter === currentFilter)}
-    >
-      {filter.toString()}
-    </span>
-  );
-
-  return (
-    <div>
-      {FILTERS.map(
-        (filter, idx) =>
-          filter === SEPARATOR ? SEPARATOR : Button(idx, filter)
-      )}
-    </div>
-  );
-}
-
-const getStyle = (active: boolean): React.CSSProperties => ({
-  cursor: 'pointer',
-  ...(active
-    ? { textDecoration: 'underline', fontWeight: 'bold' }
-    : { opacity: 0.4 }),
+const styles = (theme: Theme) => ({
+  form: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
 });
+
+interface Props extends WithStyles<typeof styles> {
+  currentFilter: todosModels.TodosFilter;
+  changeFilter: (id: string) => any;
+}
+
+const FILTERS = [All, Active, Completed];
+
+const TodoFilters = ({ currentFilter, changeFilter, classes }: Props) => (
+  <Select value={currentFilter} onChange={e => changeFilter(e.target.value)}>
+    {FILTERS.map((filter, idx) => (
+      <MenuItem value={filter}>{filter.toString()}</MenuItem>
+    ))}
+  </Select>
+);
 
 const mapStateToProps = (state: RootState) => ({
   currentFilter: todosSelectors.getTodosFilter(state.todos),
@@ -52,4 +44,4 @@ export default connect(
   {
     changeFilter: todosActions.changeFilter,
   }
-)(TodoFilters);
+)(withStyles(styles)(TodoFilters));

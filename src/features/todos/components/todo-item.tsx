@@ -1,24 +1,22 @@
 import * as React from 'react';
 import { Todo } from '../models';
+import { ListItem, ListItemText } from '@material-ui/core';
 
 interface Props {
   item: Todo;
   toggleItem: () => void;
 }
 
-function TodoItem({ item, toggleItem }: Props) {
-  return (
-    <div onClick={toggleItem} style={getStyle(item.completed)}>
-      {item.title}
-    </div>
-  );
-}
-
-const getStyle = (completed: boolean): React.CSSProperties => ({
-  overflowX: 'hidden',
-  textOverflow: 'ellipsis',
-  cursor: 'pointer',
-  ...(completed ? { textDecoration: 'line-through', opacity: 0.4 } : {}),
-});
+const TodoItem = ({ item, toggleItem }: Props) => (
+  <ListItem button={true} onClick={toggleItem}>
+    <ListItemText
+      primary={item.title}
+      primaryTypographyProps={{
+        color: item.completed ? 'textSecondary' : 'primary',
+        style: { textDecoration: item.completed ? 'line-through' : 'none' },
+      }}
+    />
+  </ListItem>
+);
 
 export default TodoItem;

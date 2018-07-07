@@ -1,12 +1,22 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { Button, TextField, Theme, FormControl } from '@material-ui/core';
 
 import { RootState } from '../../../store';
 import { todosActions } from '../';
 
-type Props = {
+const styles = (theme: Theme) => ({
+  form: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+});
+
+interface Props extends WithStyles<typeof styles> {
   addTodo: (title: string) => any;
-};
+}
+
 type State = {
   title: string;
 };
@@ -25,20 +35,27 @@ class TodoForm extends React.Component<Props, State> {
 
   render() {
     const { title } = this.state;
+    const { classes } = this.props;
 
     return (
-      <form>
-        <input
-          type="text"
-          placeholder="Enter new todo"
+      <FormControl fullWidth={true}>
+        <TextField
+          label="Enter new todo"
+          className={classes.form}
+          margin="normal"
           value={title}
           onChange={this.handleTitleChange}
         />
-        &nbsp;
-        <button type="button" onClick={this.handleAdd} disabled={!title}>
+        <Button
+          disabled={!title}
+          className={classes.form}
+          onClick={this.handleAdd}
+          variant="outlined"
+          color="primary"
+        >
           Add
-        </button>
-      </form>
+        </Button>
+      </FormControl>
     );
   }
 }
@@ -50,4 +67,4 @@ export default connect(
   {
     addTodo: (title: string) => todosActions.add({ title }),
   }
-)(TodoForm);
+)(withStyles(styles)(TodoForm));

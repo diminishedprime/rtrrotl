@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { RootState } from '../../../store';
 import { todosModels, todosActions, todosSelectors } from '../';
+import { List } from '@material-ui/core';
 import TodoItem from './todo-item';
 
 interface Props {
@@ -12,21 +13,17 @@ interface Props {
 
 function TodoList({ todos = [], toggleTodo }: Props) {
   return (
-    <ul style={getStyle()}>
+    <List>
       {todos.map(todo => (
-        <li key={todo.id}>
-          <TodoItem item={todo} toggleItem={() => toggleTodo(todo.id)} />
-        </li>
+        <TodoItem
+          key={todo.id}
+          item={todo}
+          toggleItem={() => toggleTodo(todo.id)}
+        />
       ))}
-    </ul>
+    </List>
   );
 }
-
-const getStyle = (): React.CSSProperties => ({
-  textAlign: 'left',
-  margin: 'auto',
-  width: 200,
-});
 
 const mapStateToProps = (state: RootState) => ({
   todos: todosSelectors.getFilteredTodos(state.todos),

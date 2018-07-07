@@ -9,9 +9,10 @@ import TodoItem from './todo-item';
 interface Props {
   todos: todosModels.Todo[];
   toggleTodo: (id: string) => any;
+  deleteTodo: (id: string) => any;
 }
 
-function TodoList({ todos = [], toggleTodo }: Props) {
+function TodoList({ todos = [], toggleTodo, deleteTodo }: Props) {
   return (
     <List>
       {todos.map(todo => (
@@ -19,6 +20,7 @@ function TodoList({ todos = [], toggleTodo }: Props) {
           key={todo.id}
           item={todo}
           toggleItem={() => toggleTodo(todo.id)}
+          deleteItem={() => deleteTodo(todo.id)}
         />
       ))}
     </List>
@@ -33,5 +35,6 @@ export default connect(
   mapStateToProps,
   {
     toggleTodo: (id: string) => todosActions.toggle({ id }),
+    deleteTodo: (id: string) => todosActions.deleteT({ id }),
   }
 )(TodoList);

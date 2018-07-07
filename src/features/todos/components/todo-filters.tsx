@@ -30,7 +30,9 @@ const FILTERS = [All, Active, Completed];
 const TodoFilters = ({ currentFilter, changeFilter, classes }: Props) => (
   <Select value={currentFilter} onChange={e => changeFilter(e.target.value)}>
     {FILTERS.map((filter, idx) => (
-      <MenuItem value={filter}>{filter.toString()}</MenuItem>
+      <MenuItem key={filter.toString()} value={filter}>
+        {filter.toString()}
+      </MenuItem>
     ))}
   </Select>
 );

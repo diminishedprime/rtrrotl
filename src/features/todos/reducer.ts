@@ -24,6 +24,9 @@ const todosReducer = (state: Todo[] = [], action: TodosAction) => {
             : item
       );
 
+    case getType(todos.deleteT):
+      return state.filter(item => item.id !== action.payload.id);
+
     default:
       return state;
   }

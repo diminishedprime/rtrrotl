@@ -11,31 +11,35 @@ export type TodosState = Readonly<{
   todosFilter: TodosFilter;
 }>;
 
+const todosReducer = (state: Todo[] = [], action: TodosAction) => {
+  switch (action.type) {
+    case getType(todos.add):
+      return [...state, action.payload];
+
+    case getType(todos.toggle):
+      return state.map(
+        item =>
+          item.id === action.payload.id
+            ? { ...item, completed: !item.completed }
+            : item
+      );
+
+    default:
+      return state;
+  }
+};
+
+const todosFilterReducer = (state = TodosFilter.All, action: TodosAction) => {
+  switch (action.type) {
+    case getType(todos.changeFilter):
+      return action.payload;
+
+    default:
+      return state;
+  }
+};
+
 export default combineReducers<TodosState, TodosAction>({
-  todos: (state = [], action) => {
-    switch (action.type) {
-      case getType(todos.add):
-        return [...state, action.payload];
-
-      case getType(todos.toggle):
-        return state.map(
-          item =>
-            item.id === action.payload.id
-              ? { ...item, completed: !item.completed }
-              : item
-        );
-
-      default:
-        return state;
-    }
-  },
-  todosFilter: (state = TodosFilter.All, action) => {
-    switch (action.type) {
-      case getType(todos.changeFilter):
-        return action.payload;
-
-      default:
-        return state;
-    }
-  },
+  todos: todosReducer,
+  todosFilter: todosFilterReducer,
 });

@@ -33,6 +33,12 @@ class TodoForm extends React.Component<Props, State> {
     this.setState({ title: '' });
   };
 
+  onKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.keyCode === 13) {
+      this.handleAdd();
+    }
+  };
+
   render() {
     const { title } = this.state;
     const { classes } = this.props;
@@ -45,6 +51,7 @@ class TodoForm extends React.Component<Props, State> {
           margin="normal"
           value={title}
           onChange={this.handleTitleChange}
+          onKeyUp={this.onKeyUp}
         />
         <Button
           disabled={!title}

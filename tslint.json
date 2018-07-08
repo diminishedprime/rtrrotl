@@ -9,7 +9,7 @@
     "interface-name": false,
     "max-line-length": [true, 120],
     "member-access": false,
-    "member-ordering": [true, { "order": "fields-first" }],
+    "member-ordering": [true, {"order": "fields-first"}],
     "newline-before-return": false,
     "no-any": false,
     "no-empty-interface": false,
@@ -20,7 +20,7 @@
     "no-null-keyword": false,
     "no-require-imports": false,
     "no-submodule-imports": false,
-    "no-this-assignment": [true, { "allow-destructuring": true }],
+    "no-this-assignment": [true, {"allow-destructuring": true}],
     "no-trailing-whitespace": true,
     "object-literal-sort-keys": false,
     "object-literal-shorthand": false,
@@ -30,7 +30,7 @@
     "prefer-method-signature": false,
     "prefer-template": [true, "allow-single-concat"],
     "quotemark": [true, "single", "jsx-double"],
-    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "semicolon": [false, "always", "ignore-bound-class-methods"],
     "trailing-comma": [
       true,
       {
@@ -45,7 +45,7 @@
       }
     ],
     "triple-equals": [true, "allow-null-check"],
-    "type-literal-delimiter": true,
+    "type-literal-delimiter": false,
     "typedef": [true, "parameter", "property-declaration"],
     "variable-name": [
       true,

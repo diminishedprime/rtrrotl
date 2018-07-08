@@ -1,15 +1,15 @@
 // tslint:disable-next-line:no-import-side-effect
-import 'tslib';
+import 'tslib'
 // tslint:disable-next-line:no-import-side-effect
-import './reset.css';
-import * as React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router';
-import { ConnectedRouter } from 'connected-react-router';
-import Todos from './components/todos';
-import TopBar from './components/top-bar';
-import store, { history } from './redux/store';
+import './reset.css'
+import * as React from 'react'
+import {render} from 'react-dom'
+import {Provider} from 'react-redux'
+import {Route, Switch} from 'react-router'
+import {ConnectedRouter} from 'connected-react-router'
+import Todos from './components/todos'
+import TopBar from './components/top-bar'
+import store, {history} from './redux/store'
 
 const Root = () => (
   <Provider store={store}>
@@ -27,6 +27,6 @@ const Root = () => (
       </React.Fragment>
     </ConnectedRouter>
   </Provider>
-);
+)
 
-render(<Root />, document.getElementById('root'));
+render(<Root />, document.getElementById('root'))

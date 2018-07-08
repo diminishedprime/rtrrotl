@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import {
   AppBar,
   Toolbar,
@@ -8,14 +8,14 @@ import {
   List,
   ListItem,
   ListItemText,
-} from '@material-ui/core';
-import { Route, Switch } from 'react-router';
-import MenuIcon from '@material-ui/icons/Menu';
+} from '@material-ui/core'
+import {Route, Switch} from 'react-router'
+import MenuIcon from '@material-ui/icons/Menu'
 
-import { withStyles, WithStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import FormFilter from './todo-filters';
-import * as actions from '../redux/actions';
+import {withStyles, WithStyles} from '@material-ui/core/styles'
+import {connect} from 'react-redux'
+import FormFilter from './todo-filters'
+import * as actions from '../redux/actions'
 
 const styles = {
   root: {
@@ -31,30 +31,30 @@ const styles = {
   list: {
     width: 250,
   },
-};
+}
 
 interface Props extends WithStyles<typeof styles> {
-  goToHome: () => any;
-  goToAbout: () => any;
+  goToHome: () => any
+  goToAbout: () => any
 }
 
 interface ComponentState {
-  open: boolean;
+  open: boolean
 }
 
 // TODO make the form filter conditional based on route?
 class Component extends React.Component<Props, ComponentState> {
-  readonly state: Readonly<ComponentState> = { open: false };
+  readonly state: Readonly<ComponentState> = {open: false}
 
   toggleDrawer = (open: boolean) => () => {
     this.setState({
       open,
-    });
-  };
+    })
+  }
 
   render() {
-    const { classes, goToAbout, goToHome } = this.props;
-    const { open } = this.state;
+    const {classes, goToAbout, goToHome} = this.props
+    const {open} = this.state
 
     return (
       <div className={classes.root}>
@@ -103,14 +103,14 @@ class Component extends React.Component<Props, ComponentState> {
           </Toolbar>
         </AppBar>
       </div>
-    );
+    )
   }
 }
 
 export default connect(
   undefined,
   {
-    goToAbout: () => actions.navigate({ path: '/about' }),
-    goToHome: () => actions.navigate({ path: '/' }),
+    goToAbout: () => actions.navigate({path: '/about'}),
+    goToHome: () => actions.navigate({path: '/'}),
   }
-)(withStyles(styles)(Component));
+)(withStyles(styles)(Component))

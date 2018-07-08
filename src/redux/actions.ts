@@ -1,6 +1,6 @@
 import cuid from 'cuid';
 import { createStandardAction } from 'typesafe-actions';
-import { Todo, TodosFilter } from './models';
+import { Todo, Filter } from './models';
 
 const ADD = 'todos/ADD';
 const TOGGLE = 'todos/TOGGLE';
@@ -18,6 +18,6 @@ export const add = createStandardAction(ADD).map(
   })
 );
 export const toggle = createStandardAction(TOGGLE)<{ id: string }>();
-export const changeFilter = createStandardAction(CHANGE_FILTER)<TodosFilter>();
+export const changeFilter = createStandardAction(CHANGE_FILTER)<Filter>();
 export const deleteT = createStandardAction(DELETE)<{ id: string }>();
 export const navigate = createStandardAction(NAVIGATE)<{ path: string }>();

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Select, MenuItem } from '@material-ui/core';
-import { TodosFilter, RootState, getTodosFilter } from '../redux/models';
+import { Filter, RootState, getTodosFilter } from '../redux/models';
 import * as actions from '../redux/actions';
-const { All, Active, Completed } = TodosFilter;
+const { All, Active, Completed } = Filter;
 
 interface Props {
-  currentFilter: TodosFilter;
+  currentFilter: Filter;
   changeFilter: (id: string) => any;
 }
 

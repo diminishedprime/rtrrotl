@@ -1,12 +1,6 @@
 import { combineReducers } from 'redux';
 import { getType } from 'typesafe-actions';
-import {
-  Todo,
-  TodosFilter,
-  TodosState,
-  RootAction,
-  TodosAction,
-} from './models';
+import { Todo, Filter, AppState, RootAction, TodosAction } from './models';
 import * as todos from './actions';
 import { combineEpics, Epic } from 'redux-observable';
 import { RootState } from './models';
@@ -14,7 +8,7 @@ import { delay, mapTo, filter, map } from 'rxjs/operators';
 import { isActionOf } from 'typesafe-actions';
 import { push } from 'connected-react-router';
 
-const appReducer = (state: Todo[] = [], action: TodosAction) => {
+const todosReducer = (state: Todo[] = [], action: TodosAction) => {
   switch (action.type) {
     case getType(todos.add):
       return [...state, action.payload];
@@ -35,7 +29,7 @@ const appReducer = (state: Todo[] = [], action: TodosAction) => {
   }
 };
 
-const todosFilterReducer = (state = TodosFilter.All, action: TodosAction) => {
+const filterReducer = (state = Filter.All, action: TodosAction) => {
   switch (action.type) {
     case getType(todos.changeFilter):
       return action.payload;
@@ -45,13 +39,13 @@ const todosFilterReducer = (state = TodosFilter.All, action: TodosAction) => {
   }
 };
 
-const todosReducerTop = combineReducers<TodosState, TodosAction>({
-  todos: appReducer,
-  todosFilter: todosFilterReducer,
+const appReducer = combineReducers<AppState, TodosAction>({
+  todos: todosReducer,
+  filter: filterReducer,
 });
 
 export const rootReducer = combineReducers({
-  app: todosReducerTop,
+  app: appReducer,
 });
 
 // Redux Observables
@@ -63,6 +57,8 @@ const added13: Epic<RootAction, RootState> = (action$, state) =>
     mapTo(todos.add({ title: 'YOU DID A 13' }))
   );
 
+// Note: In order to get this to work, I needed to extend RootAction to also
+// work for the type that `push` returns.
 const handleNavigation: Epic<RootAction, RootState> = (action$, state) =>
   action$.pipe(
     filter(isActionOf(todos.navigate)),

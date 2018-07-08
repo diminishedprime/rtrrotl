@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 import { getType } from 'typesafe-actions';
 import {
   Todo,
@@ -11,8 +10,9 @@ import {
 import * as todos from './actions';
 import { combineEpics, Epic } from 'redux-observable';
 import { RootState } from './models';
-import { delay, mapTo, filter } from 'rxjs/operators';
+import { delay, mapTo, filter, map } from 'rxjs/operators';
 import { isActionOf } from 'typesafe-actions';
+import { push } from 'connected-react-router';
 
 const appReducer = (state: Todo[] = [], action: TodosAction) => {
   switch (action.type) {
@@ -51,10 +51,10 @@ const todosReducerTop = combineReducers<TodosState, TodosAction>({
 });
 
 export const rootReducer = combineReducers({
-  router: routerReducer,
   app: todosReducerTop,
 });
 
+// Redux Observables
 const added13: Epic<RootAction, RootState> = (action$, state) =>
   action$.pipe(
     filter(isActionOf(todos.add)),
@@ -63,4 +63,10 @@ const added13: Epic<RootAction, RootState> = (action$, state) =>
     mapTo(todos.add({ title: 'YOU DID A 13' }))
   );
 
-export const rootEpic = combineEpics(added13);
+const handleNavigation: Epic<RootAction, RootState> = (action$, state) =>
+  action$.pipe(
+    filter(isActionOf(todos.navigate)),
+    map(action => push(action.payload.path))
+  );
+
+export const rootEpic = combineEpics(added13, handleNavigation);

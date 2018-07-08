@@ -2,12 +2,12 @@ import { StateType } from 'typesafe-actions';
 import { createSelector } from 'reselect';
 import { rootReducer } from './reducers';
 import { ActionType } from 'typesafe-actions';
-import { RouterAction, LocationChangeAction } from 'react-router-redux';
+import { routerActions } from 'connected-react-router';
 import * as actions from './actions';
 
 export type TodosAction = ActionType<typeof actions>;
-export type ReactRouterAction = RouterAction | LocationChangeAction;
-export type RootAction = ReactRouterAction | TodosAction;
+type RouterActions = ActionType<typeof routerActions>;
+export type RootAction = TodosAction | RouterActions;
 
 export type Todo = {
   id: string;

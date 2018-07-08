@@ -2,9 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { Button, TextField, Theme, FormControl } from '@material-ui/core';
-
 import { RootState } from '../redux/models';
-import { todosActions } from '../redux/actions';
+import * as actions from '../redux/actions';
 
 const styles = (theme: Theme) => ({
   form: {
@@ -17,12 +16,12 @@ interface Props extends WithStyles<typeof styles> {
   addTodo: (title: string) => any;
 }
 
-type State = {
+interface ComponentState {
   title: string;
-};
+}
 
-class TodoForm extends React.Component<Props, State> {
-  readonly state: Readonly<State> = { title: '' };
+class Component extends React.Component<Props, ComponentState> {
+  readonly state: Readonly<ComponentState> = { title: '' };
 
   handleTitleChange: React.ReactEventHandler<HTMLInputElement> = ev => {
     this.setState({ title: ev.currentTarget.value });
@@ -72,6 +71,6 @@ const mapStateToProps = (state: RootState) => ({});
 export default connect(
   mapStateToProps,
   {
-    addTodo: (title: string) => todosActions.add({ title }),
+    addTodo: (title: string) => actions.add({ title }),
   }
-)(withStyles(styles)(TodoForm));
+)(withStyles(styles)(Component));

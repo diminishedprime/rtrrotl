@@ -14,37 +14,21 @@ interface Props {
   deleteItem: () => void;
 }
 
-interface State {
-  isMouseInside: boolean;
-}
+const Component = ({ item, toggleItem, deleteItem }: Props) => (
+  <ListItem key={item.title} button={true} onClick={toggleItem}>
+    <ListItemText
+      primary={item.title}
+      primaryTypographyProps={{
+        color: item.completed ? 'textSecondary' : 'primary',
+        style: { textDecoration: item.completed ? 'line-through' : 'none' },
+      }}
+    />
+    <ListItemSecondaryAction>
+      <IconButton aria-label="Comments" onClick={deleteItem}>
+        <DeleteIcon />
+      </IconButton>
+    </ListItemSecondaryAction>
+  </ListItem>
+);
 
-class TodoItem extends React.Component<Props, State> {
-  readonly state: Readonly<State> = { isMouseInside: false };
-
-  render() {
-    const { item, toggleItem, deleteItem } = this.props;
-    return (
-      <ListItem
-        key={item.title}
-        role={undefined}
-        button={true}
-        onClick={toggleItem}
-      >
-        <ListItemText
-          primary={item.title}
-          primaryTypographyProps={{
-            color: item.completed ? 'textSecondary' : 'primary',
-            style: { textDecoration: item.completed ? 'line-through' : 'none' },
-          }}
-        />
-        <ListItemSecondaryAction>
-          <IconButton aria-label="Comments" onClick={deleteItem}>
-            <DeleteIcon />
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-    );
-  }
-}
-
-export default TodoItem;
+export default Component;

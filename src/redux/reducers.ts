@@ -1,10 +1,20 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { getType } from 'typesafe-actions';
-import { Todo, TodosFilter, TodosState } from './models';
-import { TodosAction, todosActions as todos } from './actions';
+import {
+  Todo,
+  TodosFilter,
+  TodosState,
+  RootAction,
+  TodosAction,
+} from './models';
+import * as todos from './actions';
+import { combineEpics, Epic } from 'redux-observable';
+import { RootState } from './models';
+import { delay, mapTo, filter } from 'rxjs/operators';
+import { isActionOf } from 'typesafe-actions';
 
-const todosReducer = (state: Todo[] = [], action: TodosAction) => {
+const appReducer = (state: Todo[] = [], action: TodosAction) => {
   switch (action.type) {
     case getType(todos.add):
       return [...state, action.payload];
@@ -36,13 +46,21 @@ const todosFilterReducer = (state = TodosFilter.All, action: TodosAction) => {
 };
 
 const todosReducerTop = combineReducers<TodosState, TodosAction>({
-  todos: todosReducer,
+  todos: appReducer,
   todosFilter: todosFilterReducer,
 });
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   router: routerReducer,
-  todos: todosReducerTop,
+  app: todosReducerTop,
 });
 
-export default rootReducer;
+const added13: Epic<RootAction, RootState> = (action$, state) =>
+  action$.pipe(
+    filter(isActionOf(todos.add)),
+    filter(action => action.payload.title === '13'),
+    delay(1000),
+    mapTo(todos.add({ title: 'YOU DID A 13' }))
+  );
+
+export const rootEpic = combineEpics(added13);

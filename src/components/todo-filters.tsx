@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import { Theme, Select, MenuItem } from '@material-ui/core';
-import { getTodosFilter } from '../redux/selectors';
-import { TodosFilter, RootState } from '../redux/models';
-import { todosActions } from '../redux/actions';
+import { TodosFilter, RootState, getTodosFilter } from '../redux/models';
+import * as actions from '../redux/actions';
 const { All, Active, Completed } = TodosFilter;
 
 const styles = (theme: Theme) => ({
@@ -26,7 +24,7 @@ interface Props extends WithStyles<typeof styles> {
 
 const FILTERS = [All, Active, Completed];
 
-const TodoFilters = ({ currentFilter, changeFilter, classes }: Props) => (
+const Component = ({ currentFilter, changeFilter, classes }: Props) => (
   <Select value={currentFilter} onChange={e => changeFilter(e.target.value)}>
     {FILTERS.map((filter, idx) => (
       <MenuItem key={filter.toString()} value={filter}>
@@ -37,12 +35,12 @@ const TodoFilters = ({ currentFilter, changeFilter, classes }: Props) => (
 );
 
 const mapStateToProps = (state: RootState) => ({
-  currentFilter: getTodosFilter(state.todos),
+  currentFilter: getTodosFilter(state),
 });
 
 export default connect(
   mapStateToProps,
   {
-    changeFilter: todosActions.changeFilter,
+    changeFilter: actions.changeFilter,
   }
-)(withStyles(styles)(TodoFilters));
+)(withStyles(styles)(Component));

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-
-import Todos from './main';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import FormFilter from './todo-filters';
+import TodoList from './todo-list';
+import TodoForm from './todo-form';
 
 const styles = {
   root: {
@@ -14,7 +14,9 @@ const styles = {
   },
 };
 
-export default withStyles(styles)(({ classes }) => (
+interface Props extends WithStyles<typeof styles> {}
+
+const Component = ({ classes }: Props) => (
   <div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
@@ -24,6 +26,9 @@ export default withStyles(styles)(({ classes }) => (
         <FormFilter />
       </Toolbar>
     </AppBar>
-    <Todos />
+    <TodoForm />
+    <TodoList />
   </div>
-));
+);
+
+export default withStyles(styles)(Component);

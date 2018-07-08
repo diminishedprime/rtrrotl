@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-
-import { getFilteredTodos } from '../redux/selectors';
-import { todosActions } from '../redux/actions';
+import * as actions from '../redux/actions';
 import { List } from '@material-ui/core';
 import TodoItem from './todo-item';
-import { Todo, RootState } from '../redux/models';
+import { Todo, RootState, getFilteredTodos } from '../redux/models';
 
 interface Props {
   todos: Todo[];
@@ -13,29 +11,27 @@ interface Props {
   deleteTodo: (id: string) => any;
 }
 
-function TodoList({ todos = [], toggleTodo, deleteTodo }: Props) {
-  return (
-    <List>
-      {todos.map(todo => (
-        <TodoItem
-          key={todo.id}
-          item={todo}
-          toggleItem={() => toggleTodo(todo.id)}
-          deleteItem={() => deleteTodo(todo.id)}
-        />
-      ))}
-    </List>
-  );
-}
+const Component = ({ todos = [], toggleTodo, deleteTodo }: Props) => (
+  <List>
+    {todos.map(todo => (
+      <TodoItem
+        key={todo.id}
+        item={todo}
+        toggleItem={() => toggleTodo(todo.id)}
+        deleteItem={() => deleteTodo(todo.id)}
+      />
+    ))}
+  </List>
+);
 
 const mapStateToProps = (state: RootState) => ({
-  todos: getFilteredTodos(state.todos),
+  todos: getFilteredTodos(state),
 });
 
 export default connect(
   mapStateToProps,
   {
-    toggleTodo: (id: string) => todosActions.toggle({ id }),
-    deleteTodo: (id: string) => todosActions.deleteT({ id }),
+    toggleTodo: (id: string) => actions.toggle({ id }),
+    deleteTodo: (id: string) => actions.deleteT({ id }),
   }
-)(TodoList);
+)(Component);
